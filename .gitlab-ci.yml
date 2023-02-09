@@ -1,0 +1,7 @@
+stages:
+  - test
+test:
+  stage: test
+  image: node:latest
+  script:
+    - echo "hello this is the first ci output"

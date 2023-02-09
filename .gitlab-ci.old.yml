@@ -1,0 +1,108 @@
+# stages:
+#   - pre_build
+#   - publish
+
+# variables:
+#   aws_acc_id: 300826030284
+#   aws_region: eu-central-1
+#   project: assetize
+#   service: backend
+#   # helm_repo: ssh://git@gitlab.4irelabs.com:19022/devops/argocd/assetize-argo.git
+#   build_image: node:18-alpine
+
+# # include:
+# #   - project: 'cicd/pipelines/aws-gitops'
+# #     ref: develop
+# #     file: 'pipe.yml'
+
+# pre_build:
+#   stage: pre_build
+#   image: ${build_image}
+#   script:
+#     - yarn install --frozen-lockfile
+#     - npm run build
+#   artifacts:
+#     paths:
+#       - infra
+#       - dist
+#       - node_modules
+#     expire_in: 3 days
+
+# publish:
+#   stage: publish
+#   variables:
+#     GIT_STRATEGY: none
+#     DOCKER_REGISTRY: 300826030284.dkr.ecr.eu-central-1.amazonaws.com
+#     AWS_DEFAULT_REGION: eu-central-1
+#     AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+#     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+#     APP_NAME: assetize-dev-backend
+#     DOCKER_HOST: tcp://docker:2375
+#   image:
+#     name: amazon/aws-cli
+#     entrypoint: [""]
+#   services:
+#     - docker:dind
+#   before_script:
+#     - amazon-linux-extras install docker
+#     - aws --version
+#     - docker --version
+#   script:
+#     - aws configure list
+#     # - aws configure set aws_session_token ""
+#     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+#     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+#     - aws configure set region $AWS_DEFAULT_REGION
+#     - aws configure list
+#     - echo $AWS_ACCESS_KEY_ID
+#     - docker build -f "${CI_PROJECT_DIR}/infra/Dockerfile" -t $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_IID .
+#     - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
+#     - docker push $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_IID
+#   dependencies:
+#     - pre_build
+#   only:
+#     - develop
+
+# # .kaniko_build:
+# #   image:
+# #     name: gcr.io/kaniko-project/executor:v1.9.0-debug
+# #     entrypoint: [""]
+# #   script:
+# #     - /kaniko/executor
+# #       --context "${CI_PROJECT_DIR}"
+# #       --dockerfile "${CI_PROJECT_DIR}/infra/Dockerfile"
+# #       --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}"
+
+# # build_dev:
+# #   stage: build
+# #   variables:
+# #     GIT_STRATEGY: none
+# #   extends: .kaniko_build
+# #   dependencies:
+# #     - pre_build
+# #   only:
+# #     - develop
+
+# # build_stage:
+# #   stage: build
+# #   variables:
+# #     GIT_STRATEGY: none
+# #   extends: .kaniko_build
+# #   dependencies:
+# #     - pre_build
+# #   only:
+# #     - /^q.*$/
+# #   except:
+# #     - branches
+
+# # build_prod:
+# #   stage: build
+# #   variables:
+# #     GIT_STRATEGY: none
+# #   extends: .kaniko_build
+# #   dependencies:
+# #     - pre_build
+# #   only:
+# #     - /^v.*$/
+# #   except:
+# #     - branches

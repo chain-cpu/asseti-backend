@@ -1,0 +1,59 @@
+# Tests
+/coverage
+/.nyc_output
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# System
+.DS_Store
+.idea
+.vscode
+
+# Environments
+.env
+
+# Modules
+/dist
+/node_modules
+package-lock.json
+
+# Logs
+/logs
+*.log
+
+# Tests
+.cache
+/.coverage/clover.xml
+/.coverage/lcov-report
+/.coverage/lcov.info
+/.coverage/coverage-final.json
+/test/unit/**/*.js
+/test/unit/**/*.d.ts
+/test/unit/**/*.js.map
+/test/mocks/**/*.js
+/test/mocks/**/*.d.ts
+/test/mocks/**/*.js.map
+/test/stubs/**/*.js
+/test/stubs/**/*.d.ts
+/test/stubs/**/*.js.map
+test.js
+test.json
+
+# Misc
+data
+tsconfig.tsbuildinfo
+tsconfig.build.tsbuildinfo
